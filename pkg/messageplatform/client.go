@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
 	"net/http"
 )
 
@@ -12,15 +13,22 @@ type MessageClient interface {
 }
 
 type messageClient struct {
-	client *http.Client
 	host   string
 }
 
-func NewMessageClient(host string, client *http.Client) MessageClient {
+func NewMessageClient(host string) MessageClient {
 	return messageClient{
-		client: client,
 		host:   host,
 	}
+}
+
+// Mocking the http.Client Post request
+func (c *messageClient) Post(url string, contentType string, body io.Reader) (*http.Response, error) {
+	response := &http.Response{
+		StatusCode: http.StatusOK,
+		Body:       io.NopCloser(body),
+	}
+    return response, nil
 }
 
 func (c messageClient) SendPromotionMessage(msg PromotionMessage) error {
@@ -29,7 +37,7 @@ func (c messageClient) SendPromotionMessage(msg PromotionMessage) error {
 		return err
 	}
 	reader := bytes.NewReader(body)
-	resp, err := c.client.Post(c.host+"/start-promotion", "application/json", reader)
+	resp, err := c.Post(c.host+"/send-message", "application/json", reader)
 	if err != nil {
 		return err
 	}

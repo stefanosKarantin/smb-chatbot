@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"net/http"
 
 	d "github.com/stefanosKarantin/smb-chatbot/internal/domain"
 	m "github.com/stefanosKarantin/smb-chatbot/pkg/messageplatform"
@@ -17,13 +16,12 @@ type Service struct {
 func NewService(
 	promotionRepo d.PromotionRepo,
 	statsRepo d.StatsRepo,
-	client http.Client,
 	host string,
 ) Service {
 	return Service{
 		PromotionRepo: promotionRepo,
 		StatsRepo:     statsRepo,
-		MessageClient: m.NewMessageClient(host, &client),
+		MessageClient: m.NewMessageClient(host),
 	}
 }
 

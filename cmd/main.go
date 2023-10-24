@@ -16,9 +16,8 @@ import (
 func main() {
 	storage := storage.NewStorage()
 
-	client := http.Client{}
 	host := os.Getenv("MESSAGE_HOST")
-	app := app.NewService(&storage.PromotionStorage, &storage.StatsStorage, client, host)
+	app := app.NewService(&storage.PromotionStorage, &storage.StatsStorage, host)
 
 	handler := ihttp.NewHandler(app)
 	handler.AppendRoutes()
