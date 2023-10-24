@@ -12,7 +12,7 @@ fmt:
 
 serve:
 	@echo "Starting the application with Docker..."
-	@docker build -t chatbot . && docker run -it chatbot
+	@docker build -t chatbot . && docker run -it chatbot -p 8080:8080 
 
 stop:
 	@echo "Stopping the application with Docker..."

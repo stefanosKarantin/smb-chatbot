@@ -9,8 +9,8 @@ type MockPromotionRepo struct {
 	mock.Mock
 }
 //CreatePromotion method mock
-func (m *MockPromotionRepo) CreatePromotion(customerID int, customerName string, telephone string, image string) (Promotion, error) {
-	args := m.Called(customerID, customerName, telephone, image)
+func (m *MockPromotionRepo) CreatePromotion(customerID int, customerName string, telephone string, image string, coupon int) (Promotion, error) {
+	args := m.Called(customerID, customerName, telephone, image, coupon)
 	return args.Get(0).(Promotion), args.Error(1)
 }
 //GetPromotionByID method mock

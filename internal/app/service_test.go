@@ -18,6 +18,7 @@ func TestService_StartPromotion(t *testing.T) {
 		customerName  string
 		telephone     string
 		image         string
+		coupon        int
 		promoRepo     d.PromotionRepo
 		messageClient m.MessageClient
 		expectedErr   error
@@ -28,6 +29,7 @@ func TestService_StartPromotion(t *testing.T) {
 			customerName: "John",
 			telephone:    "1234567890",
 			image:        "image.png",
+			coupon:       4444,
 			promoRepo: func() *d.MockPromotionRepo {
 				mp := d.MockPromotionRepo{}
 				promotion := d.Promotion{
@@ -52,6 +54,7 @@ func TestService_StartPromotion(t *testing.T) {
 					promotion.CustomerName,
 					promotion.Telephone,
 					"image.png",
+					4444,
 				).Return(promotion, nil)
 				mp.On("UpdateDeliveryStatus", promotion.ID, "sent").Return(nil)
 				return &mp
@@ -79,6 +82,7 @@ func TestService_StartPromotion(t *testing.T) {
 			customerName: "John",
 			telephone:    "1234567890",
 			image:        "image.png",
+			coupon:       9999,
 			promoRepo: func() *d.MockPromotionRepo {
 				mp := d.MockPromotionRepo{}
 				promotion := d.Promotion{
@@ -103,6 +107,7 @@ func TestService_StartPromotion(t *testing.T) {
 					promotion.CustomerName,
 					promotion.Telephone,
 					"image.png",
+					9999,
 				).Return(promotion, errors.New("failed to create promotion"))
 				return &mp
 			}(),
@@ -115,6 +120,7 @@ func TestService_StartPromotion(t *testing.T) {
 			customerName: "John",
 			telephone:    "1234567890",
 			image:        "image.png",
+			coupon:       4444,
 			promoRepo: func() *d.MockPromotionRepo {
 				mp := d.MockPromotionRepo{}
 				promotion := d.Promotion{
@@ -139,6 +145,7 @@ func TestService_StartPromotion(t *testing.T) {
 					promotion.CustomerName,
 					promotion.Telephone,
 					"image.png",
+					4444,
 				).Return(promotion, nil)
 				return &mp
 			}(),
@@ -165,6 +172,7 @@ func TestService_StartPromotion(t *testing.T) {
 			customerName: "John",
 			telephone:    "1234567890",
 			image:        "image.png",
+			coupon:       3333,
 			promoRepo: func() *d.MockPromotionRepo {
 				mp := d.MockPromotionRepo{}
 				promotion := d.Promotion{
@@ -189,6 +197,7 @@ func TestService_StartPromotion(t *testing.T) {
 					promotion.CustomerName,
 					promotion.Telephone,
 					"image.png",
+					3333,
 				).Return(promotion, nil)
 				mp.On("UpdateDeliveryStatus", promotion.ID, "sent").Return(errors.New("failed to update delivery status"))
 				return &mp
@@ -226,7 +235,7 @@ func TestService_StartPromotion(t *testing.T) {
 				MessageClient: mockMessageClient,
 			}
 
-			err := service.StartPromotion(tc.customerID, tc.customerName, tc.telephone, tc.image)
+			err := service.StartPromotion(tc.customerID, tc.customerName, tc.telephone, tc.image, tc.coupon)
 			assert.Equal(t, tc.expectedErr, err)
 		})
 	}

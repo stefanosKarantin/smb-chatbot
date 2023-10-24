@@ -2,11 +2,19 @@ package promotion
 
 import (
 	"fmt"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
 
 	d "github.com/stefanosKarantin/smb-chatbot/internal/domain"
 )
 
-func NewPromotionFlowSteps(customerName string, image string, coupon int) []d.Step {
+
+func TestNewPromotionFlowSteps(t *testing.T) {
+	customerName := "Stefanos"
+	image := "image.icon"
+	coupon := 1234
+
 	steps := []d.Step{
 		{
 			ID:         1,
@@ -51,10 +59,16 @@ func NewPromotionFlowSteps(customerName string, image string, coupon int) []d.St
 			Responses:  []d.Response{},
 		},
 	}
-
-	return steps
+	result := NewPromotionFlowSteps(customerName, image, coupon)
+	assert.Equal(t, steps, result)
 }
 
-func NewWelcomeText(customerName string) string {
-	return fmt.Sprintf("Welcome, %s! How can we assist you today?", customerName)
+func TestNewWelcomeText(t *testing.T) {
+	customerName := "John"
+	expectedText := fmt.Sprintf("Welcome, %s! How can we assist you today?", customerName)
+
+	text := NewWelcomeText(customerName)
+
+	assert.Equal(t, expectedText, text)
 }
+

@@ -32,8 +32,9 @@ func (s *Service) StartPromotion(
 	customerName string,
 	telephone string,
 	image string,
+	coupon int,
 ) error {
-	promotion, err := s.PromotionRepo.CreatePromotion(customerID, customerName, telephone, image)
+	promotion, err := s.PromotionRepo.CreatePromotion(customerID, customerName, telephone, image, coupon)
 	if err != nil {
 		return err
 	}

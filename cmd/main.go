@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	_ "github.com/joho/godotenv/autoload"
+
 	"github.com/stefanosKarantin/smb-chatbot/internal/app"
 	ihttp "github.com/stefanosKarantin/smb-chatbot/internal/http"
 	"github.com/stefanosKarantin/smb-chatbot/internal/storage"
@@ -21,9 +23,10 @@ func main() {
 	handler := ihttp.NewHandler(app)
 	handler.AppendRoutes()
 
-	err := http.ListenAndServe(":8080", handler.Router)
+	port := os.Getenv("PORT")
+	fmt.Printf("Ready to listen on port %s\n", port)
+	err := http.ListenAndServe(fmt.Sprintf(":%s", port), handler.Router)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Server started on port 8080")
 }

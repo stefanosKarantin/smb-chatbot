@@ -43,6 +43,7 @@ func (h *handler) startPromotion(w http.ResponseWriter, r *http.Request) {
 		promotion.CustomerName,
 		promotion.Telephone,
 		promotion.Image,
+		promotion.Coupon,
 	)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -126,6 +127,7 @@ type promotion struct {
 	CustomerName string `json:"customer_name"`
 	Telephone    string `json:"telephone"`
 	Image        string `json:"image"`
+	Coupon       int    `json:"coupon"`
 }
 
 type customerResponse struct {

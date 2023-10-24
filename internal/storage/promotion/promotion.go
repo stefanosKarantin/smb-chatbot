@@ -22,14 +22,15 @@ func (s *PromotionStorage) CreatePromotion(
 	customerName string,
 	telephone string,
 	image string,
+	coupon int,
 ) (d.Promotion, error) {
 	ID := len(s.Promotions) + 1
 	promotionSteps := make(map[int]d.Step)
-	for _, step := range NewPromotionFlowSteps(customerName, image) {
+	for _, step := range NewPromotionFlowSteps(customerName, image, coupon) {
 		promotionSteps[step.ID] = step
 	}
 	promotion := d.Promotion{
-		ID:             customerID,
+		ID:             ID,
 		CustomerID:     customerID,
 		CustomerName:   customerName,
 		Telephone:      telephone,
